@@ -1,0 +1,60 @@
+
+<ul>
+	<% @users.each do |user| %>
+		<li>
+			<%= link_to user.username, user_url(user) %>
+			<div class="friend-buttons
+			 <%= "can-friend" if Friendship.can_friend?(current_user.id, user.id) %>
+			 <%= "can-unfriend" if Friendship.can_unfriend?(current_user.id, user.id) %>">
+
+				<button class="friend" data-in="<%= user.id %>">Add Friend</button>
+				<% f_id = nil %>
+				<% if Friendship.can_unfriend?(current_user.id, user.id) %>
+					<% f_id = @friendships.find{ |f| f.in_friend_id == user.id }.id %>
+				<% end %>
+
+				<button class="unfriend"
+					data-friendship="<%= f_id %>">Remove Friend</button>
+			</div>
+		</li>
+	<% end %>
+</ul>
+
+<script>
+	$('.friend').on('click', function(event){
+		event.preventDefault();
+
+		$this = $(this);
+		var inId = $this.attr("data-in");
+
+		$.ajax({
+			url:"/users/" + inId + "/friendships",
+			type: "POST",
+			success: function(data){
+				$this.parent().toggleClass('can-friend can-unfriend');
+				$this.siblings('.unfriend').attr('data-friendship', data.id);
+			}
+		});
+
+		// $this.text('Friending...');
+		// $this.off('click');
+	});
+
+	$('.unfriend').on('click', function(event){
+		event.preventDefault();
+
+		$this = $(this);
+		var friendId = $this.attr("data-friendship");
+
+		$.ajax({
+			url:"/friendships/" + friendId,
+			type: "DELETE",
+			success: function(){
+				$this.parent().toggleClass('can-friend can-unfriend');
+			}
+		});
+
+		// $this.text('Ruining Friendship...');
+		// $this.off('click');
+	});
+</script>

@@ -1,0 +1,14 @@
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.friend-buttons button {
+	display: none;
+}
+
+.friend-buttons.can-unfriend button.unfriend {
+	display: inline-block;
+}
+
+.friend-buttons.can-friend button.friend {
+	display: inline-block;
+}
