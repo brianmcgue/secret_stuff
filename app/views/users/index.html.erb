@@ -22,17 +22,17 @@
 
 <script>
 	$('.friend').on('click', function(event){
-		event.preventDefault();
+		// event.preventDefault();
 
 		$this = $(this);
-		var inId = $this.attr("data-in");
+		var inId = $this.data("in");
 
 		$.ajax({
 			url:"/users/" + inId + "/friendships",
 			type: "POST",
 			success: function(data){
 				$this.parent().toggleClass('can-friend can-unfriend');
-				$this.siblings('.unfriend').attr('data-friendship', data.id);
+				$this.siblings('.unfriend').data('friendship', data.id);
 			}
 		});
 
@@ -41,7 +41,7 @@
 	});
 
 	$('.unfriend').on('click', function(event){
-		event.preventDefault();
+		// event.preventDefault();
 
 		$this = $(this);
 		var friendId = $this.attr("data-friendship");

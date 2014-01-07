@@ -8,7 +8,7 @@ class SecretsController < ApplicationController
     @secret.author = current_user
 
     if @secret.save
-      redirect_to user_url(@secret.recipient_id)
+      render :json => @secret
     else
       flash.now[:errors] = @secret.errors.full_messages
       render :new
