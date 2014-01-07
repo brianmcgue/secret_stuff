@@ -31,6 +31,11 @@
 	var renderedContent = templateFn(tags);
 	$("#secret_submit").before($(renderedContent));
 
+	$('#secret_submit').on('click', function(event) {
+		event.preventDefault();
+		$("#secret_submit").before($(renderedContent));
+	});
+
 	$('.secret').on('submit', function(event){
 		event.preventDefault();
 		var $this = $(this);
